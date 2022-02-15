@@ -13,22 +13,25 @@ GRIFFIN_API="/api/v1/"
 
 print(f"Polling printer {PRINTER}")
 
-griffin_job = requests.get(f"http://{PRINTER}{GRIFFIN_API}/print_job").json()
-griffin_printer = requests.get(f"http://{PRINTER}{GRIFFIN_API}/printer").json()
-griffin_history = requests.get(f"http://{PRINTER}{GRIFFIN_API}/history/print_jobs").json()
+opinicus_job = requests.get(f"http://{PRINTER}{GRIFFIN_API}/print_job").json()
+opinicus_printer = requests.get(f"http://{PRINTER}{GRIFFIN_API}/printer").json()
+opinicus_history = requests.get(f"http://{PRINTER}{GRIFFIN_API}/history/print_jobs").json()
 
 cluster_printers = requests.get(f"http://{PRINTER}{CLUSTER_API}/printers/").json()
 cluster_printjobs = requests.get(f"http://{PRINTER}{CLUSTER_API}/print_jobs/").json()
 cluster_history = requests.get(f"http://{PRINTER}{CLUSTER_API}/print_jobs/history").json()
 
 
-print(f"{PRINTER} Griffin printer state: {griffin_printer['status']}")
-if "name" in griffin_job:
-    print(f"{PRINTER} Griffin current job: {griffin_job['name']} - {griffin_job['state']} - {griffin_job['result']}")
+print(f"{PRINTER} Opinicus printer state: {opinicus_printer['status']}")
+if "name" in opinicus_job:
+    print(f"{PRINTER} Opinicus current job: {opinicus_job['name']} - {opinicus_job['state']} - {opinicus_job['result']}")
 else:
-    job = griffin_history[0]
-    print(f"{PRINTER} No running job")
-    print(f"{PRINTER} Last griffin history: {job['name']} - {job['result']}")
+    if opinicus_history:
+        job = opinicus_history[0]
+        print(f"{PRINTER} No opinicus running job")
+        print(f"{PRINTER} Last opinicus history: {job['name']} - {job['result']}")
+    else:
+        print("{PRINTER} No opinicus history yet")
 
 print()
 
@@ -40,7 +43,10 @@ print(f"{PRINTER} Cluster printer status: {current_printer['status']}")
 if current_job:
     print(f"{PRINTER} Cluster current job: {current_job['name']} - {current_job['status']}")
 else:
-    job = cluster_history[-1]
-    print(f"{PRINTER} No running job")
-    print(f"{PRINTER} Last cluster history: {job['name']} - {job['status']}")
+    if cluster_history:
+        job = cluster_history[-1]
+        print(f"{PRINTER} No running job")
+        print(f"{PRINTER} Last cluster history: {job['name']} - {job['status']}")
+    else:
+        print(f"{PRINTER} No cluster history yet")
 
