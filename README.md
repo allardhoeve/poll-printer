@@ -11,7 +11,7 @@ Will output:
 
 1. Current opinion of Opinicus on printer state
 2. Current opinion of Opinicus on print job state and result
-3. If no active job: state and result of latest history item
+3. If no active job: state and result of latest history item if present
 4. Current opinion of Cluster on printer state
 5. Current opinion of Cluster on print job state (Cluster has no notion of result)
-6. Current opinion of Cluster on latest history item
+6. Current opinion of Cluster on latest history item if present
