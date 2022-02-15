@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 import requests
 import json
+import sys
 
-PRINTER="192.168.10.18"
+try:
+    PRINTER=sys.argv[1]
+except IndexError:
+    PRINTER="192.168.10.18"
+
 CLUSTER_API="/cluster-api/v1/"
 GRIFFIN_API="/api/v1/"
+
+print(f"Polling printer {PRINTER}")
 
 griffin_job = requests.get(f"http://{PRINTER}{GRIFFIN_API}/print_job").json()
 griffin_printer = requests.get(f"http://{PRINTER}{GRIFFIN_API}/printer").json()
