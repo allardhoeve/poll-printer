@@ -3,6 +3,8 @@
 ```
 ./poll.py           # will poll 192.168.10.18
 ./poll.py 10.1.1.1  # will poll 10.1.1.1
+
+watch -n 1 ./poll.py 10.10.10.10  # refresh every second
 ```
 
 # Output
