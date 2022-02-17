@@ -11,6 +11,11 @@ except IndexError:
 CLUSTER_API="/cluster-api/v1/"
 GRIFFIN_API="/api/v1/"
 
+
+def dump(data):
+    print(json.dumps(data, indent=2))
+
+
 print(f"Polling printer {PRINTER}")
 
 opinicus_job = requests.get(f"http://{PRINTER}{GRIFFIN_API}/print_job").json()
@@ -50,3 +55,7 @@ else:
     else:
         print(f"{PRINTER} No cluster history yet")
 
+if current_printer['faults']:
+    print(f"{PRINTER} Cluster faults:")
+    for fault in current_printer['faults']:
+        print(f"    - {fault['message']:60.60s}")
